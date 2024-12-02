@@ -47,7 +47,7 @@ public class Product {
         return ProductOrderResponse.executableNormalOrder(name, normalInventory, requested - normalInventory);
     }
 
-    public ProductReceipt purchase(ConfirmedOrderRequest request) {
+    public ProductReceipt executeOrder(ConfirmedOrderRequest request) {
         this.normalInventory -= request.normalInventory();
         this.promotionInventory -= request.promotionInventory();
         int boughtAmount = request.normalInventory() + request.promotionInventory();
