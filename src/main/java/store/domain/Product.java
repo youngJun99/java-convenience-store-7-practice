@@ -63,5 +63,6 @@ public class Product {
             inventories.add(new ProductInventory(name, price, promotionInventory, promotion.get().getName()));
         }
         inventories.add(new ProductInventory(name, price, promotionInventory, ""));
+        return inventories;
     }
 }
