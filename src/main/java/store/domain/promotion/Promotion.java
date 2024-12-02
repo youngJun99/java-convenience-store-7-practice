@@ -2,7 +2,7 @@ package store.domain.promotion;
 
 import java.time.LocalDateTime;
 
-public class PromotionImpl {
+public class Promotion {
 
     private final String name;
     private final LocalDateTime start;
@@ -10,7 +10,7 @@ public class PromotionImpl {
     private final int buy;
     private final int get;
 
-    public PromotionImpl(String name, LocalDateTime start, LocalDateTime end, int buy, int get) {
+    public Promotion(String name, LocalDateTime start, LocalDateTime end, int buy, int get) {
         this.name = name;
         this.start = start;
         this.end = end;
