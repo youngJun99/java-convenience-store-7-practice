@@ -21,8 +21,8 @@ public class Promotion {
         this.get = get;
     }
 
-    public boolean isPromotable(LocalDateTime orderedTime) {
-        return orderedTime.isAfter(start) && orderedTime.isBefore(end);
+    public boolean isPromotable(ProductOrderRequest request) {
+        return request.orderTime().isAfter(start) && request.orderTime().isBefore(end);
     }
 
     public ProductOrderResponse checkPromotableOrder(ProductOrderRequest request, int promotionInventory) {

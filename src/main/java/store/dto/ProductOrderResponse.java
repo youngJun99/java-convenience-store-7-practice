@@ -8,8 +8,8 @@ public record ProductOrderResponse(
         int unPromotableInventory,
         int bonusReceivable
 ) {
-    public static ProductOrderResponse executableNormalOrder(String productName, int normalInventory) {
-        return new ProductOrderResponse(productName, true, normalInventory, 0, 0, 0);
+    public static ProductOrderResponse executableNormalOrder(String productName, int normalInventory, int promotionInventory) {
+        return new ProductOrderResponse(productName, true, normalInventory, promotionInventory, 0, 0);
     }
 
     public static ProductOrderResponse executablePromotionOrder(String productName, int promotionInventory) {
