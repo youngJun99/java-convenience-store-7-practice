@@ -34,21 +34,21 @@ public class Promotion {
         int requested = request.buyAmount();
         if (requested <= promotionInventory) {
             if (requested % (buy + get) == 0) {
-                return ProductOrderResponse.executablePromotionOrder(request.productName(), requested);
+                return ProductOrderResponse.executablePromotionOrder(request.productName(), requested, request.orderTime());
             }
             if (requested % (buy + get) == buy && requested + get <= promotionInventory) {
-                return ProductOrderResponse.bonusReceivableOrder(request.productName(), promotionInventory, get);
+                return ProductOrderResponse.bonusReceivableOrder(request.productName(), promotionInventory, get, request.orderTime());
             }
             int unPromotable = requested % (buy + get);
             int promotable = requested - unPromotable;
-            return ProductOrderResponse.unPromotableOrder(request.productName(), promotable, unPromotable);
+            return ProductOrderResponse.unPromotableOrder(request.productName(), promotable, unPromotable, request.orderTime());
         }
 
         if (promotionInventory % (buy + get) == 0) {
-            return ProductOrderResponse.unPromotableOrder(request.productName(), promotionInventory, requested - promotionInventory);
+            return ProductOrderResponse.unPromotableOrder(request.productName(), promotionInventory, requested - promotionInventory, request.orderTime());
         }
         int promotable = (buy + get) * (int) (promotionInventory / (buy + get));
-        return ProductOrderResponse.unPromotableOrder(request.productName(), promotable, requested - promotable);
+        return ProductOrderResponse.unPromotableOrder(request.productName(), promotable, requested - promotable, request.orderTime());
     }
 
     public int promotionReceived(ConfirmedOrderRequest request) {

@@ -34,12 +34,13 @@ public class InputHandler {
         return orderList;
     }
 
-    public boolean confirmOrders(ProductOrderResponse response) {
-        if (response.unPromotableInventory() != 0) {
-            String input = inputView.printNotPromotableRequest(response.productName(), response.unPromotableInventory());
-            inputValidator.validateCustomerResponse(input);
-            return input.equals("Y");
-        }
+    public boolean confirmUnPromotableOrders(ProductOrderResponse response) {
+        String input = inputView.printNotPromotableRequest(response.productName(), response.unPromotableInventory());
+        inputValidator.validateCustomerResponse(input);
+        return input.equals("Y");
+    }
+
+    public boolean confirmBonusReceivableOrders(ProductOrderResponse response) {
         String input = inputView.bonusReceivableRequest(response.productName(), response.bonusReceivable());
         inputValidator.validateCustomerResponse(input);
         return input.equals("Y");

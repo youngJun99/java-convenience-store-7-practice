@@ -42,9 +42,9 @@ public class Product {
 
         int requested = request.buyAmount();
         if (requested <= normalInventory) {
-            return ProductOrderResponse.executableNormalOrder(name, requested, 0);
+            return ProductOrderResponse.executableNormalOrder(name, requested, 0,request.orderTime());
         }
-        return ProductOrderResponse.executableNormalOrder(name, normalInventory, requested - normalInventory);
+        return ProductOrderResponse.executableNormalOrder(name, normalInventory, requested - normalInventory, request.orderTime());
     }
 
     public ProductReceipt executeOrder(ConfirmedOrderRequest request) {
