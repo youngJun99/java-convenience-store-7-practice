@@ -1,8 +1,10 @@
 package store.domain;
 
 import store.domain.promotion.Promotion;
+import store.dto.ConfirmedOrderRequest;
 import store.dto.ProductOrderRequest;
 import store.dto.ProductOrderResponse;
+import store.dto.ProductReceipt;
 
 import java.util.Optional;
 
@@ -31,7 +33,7 @@ public class Product {
     }
 
     public ProductOrderResponse checkOrder(ProductOrderRequest request) {
-        if (promotion.isPresent() && promotion.get().isPromotable(request)) {
+        if (promotion.isPresent() && promotion.get().isPromotable(request.orderTime())) {
             return promotion.get().checkPromotableOrder(request, promotionInventory);
         }
 
@@ -42,4 +44,13 @@ public class Product {
         return ProductOrderResponse.executableNormalOrder(name, normalInventory, requested - normalInventory);
     }
 
+    public ProductReceipt purchase(ConfirmedOrderRequest request) {
+        this.normalInventory -= request.normalInventory();
+        this.promotionInventory -= request.promotionInventory();
+        int boughtAmount = request.normalInventory() + request.promotionInventory();
+        if (promotion.isPresent() && promotion.get().isPromotable(request.orderTime())) {
+            return new ProductReceipt(name, price, boughtAmount, promotion.get().promotionReceived(request));
+        }
+        return new ProductReceipt(name, price, boughtAmount, 0);
+    }
 }

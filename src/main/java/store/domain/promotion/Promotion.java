@@ -1,5 +1,6 @@
 package store.domain.promotion;
 
+import store.dto.ConfirmedOrderRequest;
 import store.dto.ProductOrderRequest;
 import store.dto.ProductOrderResponse;
 
@@ -21,8 +22,8 @@ public class Promotion {
         this.get = get;
     }
 
-    public boolean isPromotable(ProductOrderRequest request) {
-        return request.orderTime().isAfter(start) && request.orderTime().isBefore(end);
+    public boolean isPromotable(LocalDateTime orderTime) {
+        return orderTime.isAfter(start) && orderTime.isBefore(end);
     }
 
     public ProductOrderResponse checkPromotableOrder(ProductOrderRequest request, int promotionInventory) {
@@ -44,6 +45,10 @@ public class Promotion {
         }
         int promotable = (buy + get) * (int) (promotionInventory / (buy + get));
         return ProductOrderResponse.unPromotableOrder(request.productName(), promotable, requested - promotable);
+    }
+
+    public int promotionReceived(ConfirmedOrderRequest request) {
+        return request.promotionInventory() / (buy + get);
     }
 
 }
