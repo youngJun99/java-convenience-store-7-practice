@@ -22,6 +22,10 @@ public class Promotion {
         this.get = get;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean isPromotable(LocalDateTime orderTime) {
         return orderTime.isAfter(start) && orderTime.isBefore(end);
     }

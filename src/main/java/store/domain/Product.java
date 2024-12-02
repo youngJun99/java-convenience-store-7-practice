@@ -1,11 +1,10 @@
 package store.domain;
 
 import store.domain.promotion.Promotion;
-import store.dto.ConfirmedOrderRequest;
-import store.dto.ProductOrderRequest;
-import store.dto.ProductOrderResponse;
-import store.dto.ProductReceipt;
+import store.dto.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Product {
@@ -22,6 +21,10 @@ public class Product {
         this.promotion = promotion;
         this.normalInventory = normalQuantity;
         this.promotionInventory = promotionQuantity;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void refillNormalQuantity(int refill) {
@@ -52,5 +55,13 @@ public class Product {
             return new ProductReceipt(name, price, boughtAmount, promotion.get().promotionReceived(request));
         }
         return new ProductReceipt(name, price, boughtAmount, 0);
+    }
+
+    public List<ProductInventory> requestInventoryInfo() {
+        List<ProductInventory> inventories = new ArrayList<>();
+        if (promotion.isPresent()) {
+            inventories.add(new ProductInventory(name, price, promotionInventory, promotion.get().getName()));
+        }
+        inventories.add(new ProductInventory(name, price, promotionInventory, ""));
     }
 }
