@@ -3,6 +3,7 @@ package store.service;
 import store.dto.PayReceipt;
 import store.dto.ProductReceipt;
 import store.handler.InputHandler;
+import store.utils.ErrorCatcher;
 import store.view.OutputView;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class ReceiptPrintService {
     }
 
     private int processMemberShipDiscount(int currentPay) {
-        boolean memberShipDiscount = inputHandler.confirmMemberShipDiscount();
+        boolean memberShipDiscount = ErrorCatcher.returnRetryHandler(inputHandler::confirmMemberShipDiscount);
         if (memberShipDiscount) {
             return Math.max(8000, currentPay * 3 / 10);
         }

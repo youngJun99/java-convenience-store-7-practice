@@ -3,6 +3,7 @@ package store.service;
 import store.domain.Store;
 import store.dto.*;
 import store.handler.InputHandler;
+import store.utils.ErrorCatcher;
 import store.view.OutputView;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class OrderService {
     public List<ProductReceipt> processOrder(Store store) {
         List<ProductInventory> inventories = store.showInventories();
         outputView.printInventoryStatus(inventories);
-        List<ProductOrderRequest> requests = inputHandler.getOrders();
+        List<ProductOrderRequest> requests = ErrorCatcher.returnRetryHandler(inputHandler::getOrders);
         List<ProductOrderResponse> responses = store.requestOrder(requests);
         List<ConfirmedOrderRequest> confirmedRequests = confirmOrders(responses);
         return store.executeOrder(confirmedRequests);
@@ -42,7 +43,7 @@ public class OrderService {
                         );
                     }
                     if (response.unPromotableInventory() != 0) {
-                        boolean buyUnPromotable = inputHandler.confirmUnPromotableOrders(response);
+                        boolean buyUnPromotable = ErrorCatcher.returnRetryHandler(() -> inputHandler.confirmUnPromotableOrders(response));
                         if (buyUnPromotable) {
                             return new ConfirmedOrderRequest(
                                     response.productName(),
@@ -56,7 +57,7 @@ public class OrderService {
                                 response.promotionInventory(),
                                 response.orderedTime());
                     }
-                    boolean getBonuse = inputHandler.confirmBonusReceivableOrders(response);
+                    boolean getBonuse = ErrorCatcher.returnRetryHandler(() -> inputHandler.confirmBonusReceivableOrders(response));
                     if (getBonuse) {
                         return new ConfirmedOrderRequest(
                                 response.productName(),

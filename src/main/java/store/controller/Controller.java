@@ -5,6 +5,7 @@ import store.dto.ProductReceipt;
 import store.service.OrderService;
 import store.service.ReceiptPrintService;
 import store.service.StoreGenerateService;
+import store.utils.ErrorCatcher;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Controller {
     }
 
     public void run() {
-        Store generatedStore = storeGenerateService.generate();
+        Store generatedStore = ErrorCatcher.returnRetryHandler(storeGenerateService::generate);
         boolean continueShopping = true;
 
         while (continueShopping) {
