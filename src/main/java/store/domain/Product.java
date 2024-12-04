@@ -1,5 +1,6 @@
 package store.domain;
 
+import store.constants.Errors;
 import store.domain.promotion.Promotion;
 import store.dto.*;
 
@@ -36,15 +37,22 @@ public class Product {
     }
 
     public ProductOrderResponse checkOrder(ProductOrderRequest request) {
+        validateOrder(request);
         if (promotion.isPresent() && promotion.get().isPromotable(request.orderTime())) {
             return promotion.get().checkPromotableOrder(request, promotionInventory);
         }
 
         int requested = request.buyAmount();
         if (requested <= normalInventory) {
-            return ProductOrderResponse.executableNormalOrder(name, requested, 0,request.orderTime());
+            return ProductOrderResponse.executableNormalOrder(name, requested, 0, request.orderTime());
         }
         return ProductOrderResponse.executableNormalOrder(name, normalInventory, requested - normalInventory, request.orderTime());
+    }
+
+    private void validateOrder(ProductOrderRequest request) {
+        if (request.buyAmount() > normalInventory + promotionInventory) {
+            throw new IllegalArgumentException(Errors.ORDER_OVER_INVENTORY.getMessage());
+        }
     }
 
     public ProductReceipt executeOrder(ConfirmedOrderRequest request) {
