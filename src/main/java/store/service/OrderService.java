@@ -26,6 +26,10 @@ public class OrderService {
         return store.executeOrder(confirmedRequests);
     }
 
+    public boolean continueShopping() {
+        return inputHandler.continueShopping();
+    }
+
     private List<ConfirmedOrderRequest> confirmOrders(List<ProductOrderResponse> responses) {
         return responses.stream()
                 .map(response -> {
