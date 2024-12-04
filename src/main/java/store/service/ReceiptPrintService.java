@@ -9,12 +9,12 @@ import java.util.List;
 
 public class ReceiptPrintService {
 
-    private final OutputView outputView;
     private final InputHandler inputHandler;
+    private final OutputView outputView;
 
-    public ReceiptPrintService(OutputView outputView, InputHandler inputHandler) {
-        this.outputView = outputView;
+    public ReceiptPrintService(InputHandler inputHandler, OutputView outputView) {
         this.inputHandler = inputHandler;
+        this.outputView = outputView;
     }
 
     public void receiptPrintAndContinue(List<ProductReceipt> receipt) {
