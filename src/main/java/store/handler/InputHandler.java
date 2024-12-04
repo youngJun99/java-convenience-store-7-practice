@@ -46,6 +46,12 @@ public class InputHandler {
         return input.equals("Y");
     }
 
+    public boolean confirmMemberShipDiscount() {
+        String input = inputView.printMemberShipDiscountRequest();
+        inputValidator.validateCustomerResponse(input);
+        return input.equals("Y");
+    }
+
     public boolean continueShopping() {
         String input = inputView.printContinueBuyRequest();
         inputValidator.validateCustomerResponse(input);
