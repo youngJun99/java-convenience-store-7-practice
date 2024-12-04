@@ -35,7 +35,7 @@ public class StoreReader {
             }
             String promotionName = data[3].trim();
             if (promotionName.equals("null")) {
-                products.add(new Product(productName, price, null, Integer.parseInt(data[2].trim()), 0));
+                products.add(new Product(productName, price, Optional.ofNullable(null), Integer.parseInt(data[2].trim()), 0));
                 continue;
             }
             Optional<Promotion> promotion = promotions.stream()
