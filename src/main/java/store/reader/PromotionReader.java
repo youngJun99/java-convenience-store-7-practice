@@ -7,10 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PromotionReader{
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public List<Promotion> createPromotions(String promotionPath) throws IOException {
         List<Promotion> promotions = new ArrayList<>();
@@ -27,8 +30,8 @@ public class PromotionReader{
         String name = data[0].trim();
         int buy = Integer.parseInt(data[1].trim());
         int get = Integer.parseInt(data[2].trim());
-        LocalDateTime startDate = LocalDateTime.parse(data[3].trim());
-        LocalDateTime endDate = LocalDateTime.parse(data[4].trim());
+        LocalDateTime startDate = LocalDateTime.parse(data[3].trim(),DATE_TIME_FORMATTER);
+        LocalDateTime endDate = LocalDateTime.parse(data[4].trim(),DATE_TIME_FORMATTER);
 
         promotions.add(new Promotion(name,startDate,endDate, buy, get));
     }
