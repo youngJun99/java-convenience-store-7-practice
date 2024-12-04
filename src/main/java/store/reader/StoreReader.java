@@ -39,7 +39,7 @@ public class StoreReader {
                 continue;
             }
             Optional<Promotion> promotion = promotions.stream()
-                    .filter(promotionSelected -> promotionSelected.getName().equals(productName))
+                    .filter(promotionSelected -> promotionSelected.getName().equals(promotionName))
                     .findFirst();
             products.add(new Product(productName, price, promotion, 0, Integer.parseInt(data[2].trim())));
         }
