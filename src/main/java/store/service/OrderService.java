@@ -21,10 +21,15 @@ public class OrderService {
     public List<ProductReceipt> processOrder(Store store) {
         List<ProductInventory> inventories = store.showInventories();
         outputView.printInventoryStatus(inventories);
-        List<ProductOrderRequest> requests = ErrorCatcher.returnRetryHandler(inputHandler::getOrders);
-        List<ProductOrderResponse> responses = store.requestOrder(requests);
+        List<ProductOrderResponse> responses = ErrorCatcher.returnRetryHandler(() -> getProductOrderResponses(store));
         List<ConfirmedOrderRequest> confirmedRequests = confirmOrders(responses);
         return store.executeOrder(confirmedRequests);
+    }
+
+    private List<ProductOrderResponse> getProductOrderResponses(Store store) {
+        List<ProductOrderRequest> requests = inputHandler.getOrders();
+        List<ProductOrderResponse> responses = store.requestOrder(requests);
+        return responses;
     }
 
     public boolean continueShopping() {
