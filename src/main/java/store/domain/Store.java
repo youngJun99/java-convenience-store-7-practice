@@ -33,12 +33,12 @@ public class Store {
     }
 
     public List<ProductReceipt> executeOrder(List<ConfirmedOrderRequest> requests) {
-        return products.stream()
-                .map(product -> {
-                    ConfirmedOrderRequest confirmedRequest = requests.stream()
-                            .filter(request -> request.productName().equals(product.getName()))
+        return requests.stream()
+                .map(request -> {
+                    Product foundProduct = products.stream()
+                            .filter(product -> product.getName().equals(request.productName()))
                             .findFirst().get();
-                    return product.executeOrder(confirmedRequest);
+                    return foundProduct.executeOrder(request);
                 }).toList();
     }
 }
