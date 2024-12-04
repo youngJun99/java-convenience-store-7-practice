@@ -4,6 +4,7 @@ import store.constants.Errors;
 import store.dto.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Store {
 
@@ -21,13 +22,13 @@ public class Store {
 
     public List<ProductOrderResponse> requestOrder(List<ProductOrderRequest> requests) {
 
-        return products.stream()
-                .map(product -> {
-                    ProductOrderRequest productRequest = requests.stream()
-                            .filter(request -> request.productName().equals(product.getName()))
+        return requests.stream()
+                .map(request -> {
+                    Product foundProduct = products.stream()
+                            .filter(product -> product.getName().equals(request.productName()))
                             .findAny()
                             .orElseThrow(() -> new IllegalArgumentException(Errors.NOT_EXISTING_PRODUCT.getMessage()));
-                    return product.checkOrder(productRequest);
+                    return foundProduct.checkOrder(request);
                 }).toList();
     }
 
