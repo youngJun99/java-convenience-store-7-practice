@@ -19,8 +19,8 @@ public class ReceiptPrintService {
     }
 
     public void receiptPrintAndContinue(List<ProductReceipt> receipt) {
-        outputView.printBoughtReceipt(receipt);
         PayReceipt finalPayment = finalCalculation(receipt);
+        outputView.printBoughtReceipt(receipt);
         outputView.printFinalCalculationReceipt(finalPayment);
     }
 
