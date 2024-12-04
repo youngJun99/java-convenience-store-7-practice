@@ -35,7 +35,7 @@ public class OutputView {
 
     private String getInventory(int inventory) {
         if (inventory == 0) {
-            return "재고없음";
+            return "재고 없음";
         }
         return inventory + "개";
     }
