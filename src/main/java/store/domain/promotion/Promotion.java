@@ -37,7 +37,7 @@ public class Promotion {
                 return ProductOrderResponse.executablePromotionOrder(request.productName(), requested, request.orderTime());
             }
             if (requested % (buy + get) == buy && requested + get <= promotionInventory) {
-                return ProductOrderResponse.bonusReceivableOrder(request.productName(), promotionInventory, get, request.orderTime());
+                return ProductOrderResponse.bonusReceivableOrder(request.productName(), requested, get, request.orderTime());
             }
             int unPromotable = requested % (buy + get);
             int promotable = requested - unPromotable;
