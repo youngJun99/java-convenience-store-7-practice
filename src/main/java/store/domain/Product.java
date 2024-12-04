@@ -62,7 +62,7 @@ public class Product {
         if (promotion.isPresent()) {
             inventories.add(new ProductInventory(name, price, promotionInventory, promotion.get().getName()));
         }
-        inventories.add(new ProductInventory(name, price, promotionInventory, ""));
+        inventories.add(new ProductInventory(name, price, normalInventory, ""));
         return inventories;
     }
 }
