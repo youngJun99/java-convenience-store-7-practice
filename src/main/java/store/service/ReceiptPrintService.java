@@ -42,7 +42,7 @@ public class ReceiptPrintService {
     private int processMemberShipDiscount(int currentPay) {
         boolean memberShipDiscount = ErrorCatcher.returnRetryHandler(inputHandler::confirmMemberShipDiscount);
         if (memberShipDiscount) {
-            return Math.max(8000, currentPay * 3 / 10);
+            return Math.min(8000, currentPay * 3 / 10);
         }
         return 0;
     }
